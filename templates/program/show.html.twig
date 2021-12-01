@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="media">
+    <div class="media text-light">
         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
@@ -8,7 +8,7 @@
             <p>Catégorie : {{ program.category.name }}</p>
         </div>
     </div>
-    <a href="{{ path('program_index') }}">
+    <a class="text-light" href="{{ path('program_index') }}">
         Retour à la liste des programmes
     </a>
 {% endblock %}

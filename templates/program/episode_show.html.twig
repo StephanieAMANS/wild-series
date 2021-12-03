@@ -1,0 +1,16 @@
+{%  extends 'base.html.twig' %}
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="media m-auto w-50">
+        <div class="media-body">
+            <h1 class="text-light mb-5 text-center mt-4"> {{ program.title }} </h1>
+                <p class="text-light">{{ season.description }}</p>
+                    <h3 class="text-light"> Episode {{ episode.number }} - {{ episode.title }}</h3>
+                <p class="text-light">{{ episode.synopsis }}</p>
+        </div>
+        <a class="text-light" href="{{ path('program_index') }}">
+            Retour à la liste des programmes
+        </a>
+    </div>
+{% endblock %}

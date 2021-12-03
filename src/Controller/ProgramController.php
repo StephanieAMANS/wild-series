@@ -28,41 +28,29 @@ Class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/", name="show", methods="GET", requirements={"id"="\d{1,}"})
+     * @Route("/{id}/", name="show")
      */
-    public function show(int $id): Response
+    public function show(Program $program): Response
     {
-        $program = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findOneBy(['id' => $id]);
-
-        if(!$program) {
-            throw $this->createNotFoundException(
-                'No program with id : '.$id.'found in program\'s table.'
-            );
-        }
         $seasons = $this->getDoctrine()
             ->getRepository(Season::class)
             ->findBy(['program' => $program]);
 
+        if(!$program) {
+            throw $this->createNotFoundException(
+                'No program with id : '.$program.'found in program\'s table.'
+            );
+        }
         return $this->render('program/show.html.twig', [
             'program' => $program,
             'seasons' => $seasons,
         ]);
     }
     /**
-     * @Route("/{programId}/seasons/{seasonId}", name="show_season")
+     * @Route("/{program}/seasons/{season}", name="show_season")
      */
-    public function showSeason(int $programId, int $seasonId)
+    public function showSeason(Program $program, Season $season)
     {
-        $program = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findOneById($programId);
-
-        $season = $this->getDoctrine()
-            ->getRepository(Season::class)
-            ->findOneById($seasonId);
-
         $episodes = $this->getDoctrine()
             ->getRepository(Episode::class)
             ->findBySeason($season);
@@ -70,13 +58,19 @@ Class ProgramController extends AbstractController
         return $this->render('/program/season_show.html.twig',
         ['program' => $program,
          'season'  => $season,
-        'episodes' => $episodes,
-]);
-
+         'episodes' => $episodes,
+        ]);
 }
-
-
-
-
+    /**
+     * @Route("/{programId}/seasons/{seasonId}/episode/{episodeId}", name="episode_show")
+     */
+    public function showEpisode(Program $program, Season $season, Episode $episode)
+    {
+        return $this->render('/program/episode_show.html.twig',
+            ['program' => $program,
+                'season'  => $season,
+                'episode' => $episode,
+            ]);
+    }
 }
 

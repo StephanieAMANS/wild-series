@@ -1,0 +1,16 @@
+{%  extends 'base.html.twig' %}
+{% block title %}Série #{{ program.title }}{% endblock %}
+
+{% block body %}
+   <div class="m-5">
+      <h1 class="text-light"> Série :{{ program.title }} </h1>
+      <div>
+         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+      <h2 class="text-light">{{ season.description }}</h2>
+      {% for episode in episodes %}
+         <h3 class="text-light"> Episode {{ episode.number }} - {{ episode.title }}</h3>
+         <p class="text-light">{{ episode.synopsis }}</p>
+      {% endfor %}
+      </div>
+   </div>
+{% endblock %}

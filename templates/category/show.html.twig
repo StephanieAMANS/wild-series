@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Categories {% endblock %}
-
 {% block body %}
-    {% for program in programs %}
-        <div>
-            <p>{{ program.title }} {{ program.summary }}</p>
-            <a href="{{ path("program_show", { id: program.id }) }}">
-                Voir la fiche série
-            </a>
-        </div>
-    {% endfor %}
+    <div class="container text-center">
+        <h1> {{ category.name }}</h1>
+        <ul>
+            {% for program in programs %}
+                <p>{{ program.title }} {{ program.summary }}</p>
+                    <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche série</a>
+            {% else %}
+                <p>Aucune série trouvée</p>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

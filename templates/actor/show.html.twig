@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="media text-light">
+        <div class="media-body">
+            <ul>
+                {% for program in actor.programs %}
+                    <li>{{ program.title }}</li>
+                    <a class="text-light" href="{{ path('program_show',{program: program.id}) }}"> {{program.title}} </a>
+                {%  else %}
+                    <p>Aucun programme trouvé</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

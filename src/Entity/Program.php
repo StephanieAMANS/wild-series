@@ -32,9 +32,6 @@ class Program
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide")
-     * @Assert\Regex(
-     *     pattern = "/Plus\sbelle\sla\svie\g",
-     *     message ="on parle de vraies séries ici")
      */
     private $summary;
 

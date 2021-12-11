@@ -56,17 +56,16 @@ class Actor
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeInterface
+    public function getBirthdate(): ?\DateTimeInterface
     {
         return $this->birth_date;
     }
 
-    public function setBirthDate(\DateTimeInterface $birth_date): self
+    public function setBirthdate(\DateTimeInterface $birth_date): void
     {
         $this->birth_date = $birth_date;
-
-        return $this;
     }
+
 
     /**
      * @return Collection|Program[]

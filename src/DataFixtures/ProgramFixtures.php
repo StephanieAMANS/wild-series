@@ -3,12 +3,19 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+    public $slugify;
+    public function __construct(Slugify $slugify)
+    {
+        $this->slugify = $slugify;
+    }
+    
     public function load(ObjectManager $manager): void
     {
         $program = new Program();
@@ -17,8 +24,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program->setCategory($this->getReference('category_0'));
         for ($i=0; $i < count(ActorFixtures::ACTOR); $i++) {
             $program->addActor($this->getReference('actor_' . $i));
-            $manager->persist($program);
         }
+        $program->setSlug($this->slugify->generate($program->getTitle()));
+        $manager->persist($program);
         $this->addReference('program_1', $program);
         $manager->flush();
 
@@ -29,10 +37,11 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program2->setCategory($this->getReference('category_1'));
         for ($i=0; $i < count(ActorFixtures::ACTOR); $i++) {
             $program2->addActor($this->getReference('actor_' . $i));
-            $manager->persist($program2);
         }
+        $program->setSlug($this->slugify->generate($program->getTitle()));
+        $manager->persist($program2);
         $this->addReference('program_2', $program2);
-        $manager->flush();
+
 
         $program3 = new Program();
         $program3->setTitle('The Bold Type');
@@ -41,10 +50,11 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program3->setCategory($this->getReference('category_2'));
         for ($i=0; $i < count(ActorFixtures::ACTOR); $i++) {
             $program3->addActor($this->getReference('actor_' . $i));
-            $manager->persist($program3);
         }
+        $program->setSlug($this->slugify->generate($program->getTitle()));
+        $manager->persist($program3);
         $this->addReference('program_3', $program3);
-        $manager->flush();
+
 
         $program4 = new Program();
         $program4->setTitle('Sex and the City');
@@ -53,10 +63,11 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program4->setCategory($this->getReference('category_3'));
         for ($i=0; $i < count(ActorFixtures::ACTOR); $i++) {
             $program4->addActor($this->getReference('actor_' . $i));
-            $manager->persist($program4);
         }
+        $program->setSlug($this->slugify->generate($program->getTitle()));
+        $manager->persist($program4);
         $this->addReference('program_4', $program4);
-        $manager->flush();
+
 
         $program5 = new Program();
         $program5->setTitle('Sherlock');
@@ -65,8 +76,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $program5->setCategory($this->getReference('category_4'));
         for ($i=0; $i < count(ActorFixtures::ACTOR); $i++) {
             $program5->addActor($this->getReference('actor_' . $i));
-            $manager->persist($program5);
         }
+        $program->setSlug($this->slugify->generate($program->getTitle()));
+        $manager->persist($program5);
         $this->addReference('program_5', $program5);
         $manager->flush();
     }

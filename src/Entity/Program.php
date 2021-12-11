@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProgramRepository::class)
- * @UniqueEntity("title", message="ce titre existe déjà")
+ * @UniqueEntity(fields={"title"},
+ *     message="La série {{value}} existe déjà")
  */
 class Program
 {
@@ -25,7 +26,7 @@ class Program
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être mentionné")
-     * @Assert\Length(max= 255)
+     * @Assert\Length(max="255")
      */
     private $title;
 
@@ -41,23 +42,14 @@ class Program
     private $poster;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class)
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="programs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $country;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $year;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="program", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="program")
      */
     private $seasons;
 
@@ -65,6 +57,11 @@ class Program
      * @ORM\ManyToMany(targetEntity=Actor::class, mappedBy="programs")
      */
     private $actors;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -125,29 +122,6 @@ class Program
         return $this;
     }
 
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    public function getYear(): ?int
-    {
-        return $this->year;
-    }
-
-    public function setYear(int $year): self
-    {
-        $this->year = $year;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Season[]
@@ -202,6 +176,18 @@ class Program
         if ($this->actors->removeElement($actor)) {
             $actor->removeProgram($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

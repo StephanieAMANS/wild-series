@@ -14,7 +14,9 @@ class CategoryFixtures extends Fixture
         'Animation',
         'Fantastique',
         'Horreur',
+        'Comédie'
     ];
+
     /**
      * @inheritDoc
      */
@@ -23,8 +25,8 @@ class CategoryFixtures extends Fixture
         foreach(self::CATEGORIES as $key => $categoryName) {
             $category = new Category();
             $category->setName($categoryName);
-            $this->addReference('category_' . $key, $category);
             $manager->persist($category);
+            $this->addReference('category_' . $key, $category);
         }
         $manager->flush();
     }

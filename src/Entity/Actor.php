@@ -25,11 +25,6 @@ class Actor
     private $name;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $birth_date;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Program::class, inversedBy="actors")
      */
     private $programs;
@@ -54,16 +49,6 @@ class Actor
         $this->name = $name;
 
         return $this;
-    }
-
-    public function getBirthdate(): ?\DateTimeInterface
-    {
-        return $this->birth_date;
-    }
-
-    public function setBirthdate(\DateTimeInterface $birth_date): void
-    {
-        $this->birth_date = $birth_date;
     }
 
 

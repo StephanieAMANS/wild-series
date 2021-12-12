@@ -5,9 +5,7 @@ use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Form\ProgramType;
-use App\Service\Slugify;
 use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +31,7 @@ Class ProgramController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function new(Request $request,ManagerRegistry $doctrine, Slugify $slugify): Response
+    public function new(Request $request,ManagerRegistry $doctrine): Response
     {
         $program = new Program();
         $entityManager = $doctrine->getManager();
@@ -41,8 +39,6 @@ Class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $slug =$slugify->generate($program->getTitle());
-            $program->setSlug($slug);
             $program = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
@@ -73,7 +69,7 @@ Class ProgramController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{slug}/seasons/{season}", name="show_season")
+     * @Route("/{program}/seasons/{season}", name="show_season")
      */
     public function showSeason(Program $program, Season $season, ManagerRegistry $doctrine)
     {

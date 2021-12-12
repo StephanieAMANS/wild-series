@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Form\EpisodeType;
 use App\Repository\EpisodeRepository;
-use App\Service\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,16 +29,13 @@ class EpisodeController extends AbstractController
     /**
      * @Route("/new", name="episode_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugify): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $episode = new Episode();
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $slug =$slugify->generate($episode->getTitle());
-            $episode->setSlug($slug);
-            $episode = $form->getData();
             $entityManager->persist($episode);
             $entityManager->flush();
 
@@ -65,7 +61,7 @@ class EpisodeController extends AbstractController
     /**
      * @Route("/{id}/edit", name="episode_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Episode $episode, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Episode $episode, EntityManagerInterface $entityManager, Slugify $slugify): Response
     {
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);

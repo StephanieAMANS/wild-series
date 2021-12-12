@@ -20,7 +20,6 @@ class ActorFixtures extends Fixture
         foreach(self::ACTOR as $key => $actorName) {
             $actor = new Actor();
             $actor->setName($actorName);
-            $actor->setBirthDate(new \DateTime('06/04/2014'));
             $manager->persist($actor);
             $this->addReference('actor_' . $key, $actor);
         }

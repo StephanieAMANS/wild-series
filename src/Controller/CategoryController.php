@@ -51,13 +51,13 @@ class CategoryController extends AbstractController
         ]);
     }
     /**
-     * @Route("/show/{category}", name="show")
+     * @Route("/show/{categoryName}", name="show")
      */
-    public function show(Category $category): Response
+    public function show(Category $categoryName): Response
     {
         if(!$category) {
             throw $this->createNotFoundException(
-                'le nom de la catégorie' . $category . ' n\'a pas été trouvée.'
+                'le nom de la catégorie' . $categoryName . ' n\'a pas été trouvée.'
             );
         }
         $programs = $this->getDoctrine()
